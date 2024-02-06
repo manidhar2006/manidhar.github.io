@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Section</title>
+    <style>
+      body {
+        font-size: 30px;
+        margin: 20px;
+        padding-bottom: 300px;
+        border-radius: 8px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: background-color 0.5s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blog" id="blog2">
+      <h2
+        style="
+          font-size: 40px;
+          font-family: sans-serif;
+          color: rgb(59, 190, 190);
+        "
+      >
+        Ravichandran Ashwin: The Spin Wizard of Indian Cricket
+      </h2>
+      <p>
+        Ravichandran Ashwin, often hailed as the "Spin Wizard," has emerged as
+        one of the most skilled and impactful cricketers in the contemporary
+        era. Born on September 17, 1986, in Chennai, India, Ashwin has carved a
+        niche for himself with his exceptional spin bowling and versatile
+        batting prowess. Ashwin's journey in international cricket is adorned
+        with numerous records and accolades. He made his debut for the Indian
+        cricket team in 2010 and swiftly rose through the ranks with his
+        impeccable performance. With his variations in spin and flight, Ashwin
+        has bamboozled some of the finest batsmen in the world across all
+        formats of the game. One of Ashwin's most remarkable traits is his
+        ability to adapt to different conditions and formats. Whether it's the
+        turning tracks of India or the seaming pitches overseas, Ashwin has
+        consistently delivered match-winning performances, earning him the
+        reputation of being a true match-winner. Beyond his prowess with the
+        ball, Ashwin has also showcased his batting skills on numerous
+        occasions. He has rescued the team from precarious situations with his
+        gritty knocks lower down the order, often contributing crucial runs when
+        it mattered the most. Ashwin's impact extends beyond the cricket field.
+        His astute cricketing intellect and leadership qualities make him a
+        valuable asset in the team's strategy discussions. His willingness to
+        mentor young talents and share his knowledge exemplifies his commitment
+        to the growth of Indian cricket. As Ashwin continues to spin his magic
+        on the cricket field, his journey serves as an inspiration to aspiring
+        cricketers across the globe. With his unwavering dedication, passion for
+        the game, and relentless pursuit of excellence, Ravichandran Ashwin has
+        etched his name in the annals of cricketing history.
+      </p>
+      <button class="like-btn" onclick="likeBlog('blog2')">Like</button>
+      <span id="likeCount_blog2">0</span> Likes
+      <div class="comment-section">
+        <textarea
+          id="commentInput_blog2"
+          placeholder="Add a comment"
+        ></textarea>
+        <button onclick="addComment('blog2')">Add Comment</button>
+        <div id="comments_blog2"></div>
+      </div>
+    </div>
+    <script>
+      function likeBlog(blogId) {
+        const likeCountElement = document.getElementById(`likeCount_${blogId}`);
+        let likeCount = parseInt(likeCountElement.innerText);
+        likeCount++;
+        likeCountElement.innerText = likeCount;
+
+        localStorage.setItem(`${blogId}_likeCount`, likeCount);
+      }
+
+      function addComment(blogId) {
+        const commentInput = document.getElementById(`commentInput_${blogId}`);
+        const commentsContainer = document.getElementById(`comments_${blogId}`);
+        const comment = commentInput.value.trim();
+
+        if (comment !== "") {
+          commentsContainer.innerHTML += `<p>${comment}</p>`;
+
+          const existingComments =
+            JSON.parse(localStorage.getItem(`${blogId}_comments`)) || [];
+          existingComments.push(comment);
+          localStorage.setItem(
+            `${blogId}_comments`,
+            JSON.stringify(existingComments)
+          );
+
+          commentInput.value = "";
+        }
+      }
+      function setInitialValues() {
+        const blogId = "blog2";
+        const likeCount = localStorage.getItem(`${blogId}_likeCount`) || 0;
+        const comments =
+          JSON.parse(localStorage.getItem(`${blogId}_comments`)) || [];
+
+        document.getElementById(`likeCount_${blogId}`).innerText = likeCount;
+
+        const commentsContainer = document.getElementById(`comments_${blogId}`);
+        commentsContainer.innerHTML = comments
+          .map((comment) => `<p>${comment}</p>`)
+          .join("");
+      }
+      setInitialValues();
+    </script>
+  </body>
+</html>

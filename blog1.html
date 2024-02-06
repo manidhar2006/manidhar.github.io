@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Section</title>
+    <style>
+      body {
+        font-size: 30px;
+        margin: 20px;
+        padding-bottom: 300px;
+        border-radius: 8px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: background-color 0.5s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blog" id="blog1">
+      <h2
+        style="
+          font-size: 40px;
+          font-family: sans-serif;
+          color: rgb(59, 190, 190);
+        "
+      >
+        Ayodhya Ram Mandir: A Monument of Faith and Heritage
+      </h2>
+      <p>
+        The Ayodhya Ram Mandir stands as a testament to India's rich cultural
+        heritage and the enduring faith of millions. Situated in the ancient
+        city of Ayodhya, Uttar Pradesh, this magnificent temple is dedicated to
+        Lord Ram, a revered figure in Hindu mythology. The history of the Ram
+        Mandir is intertwined with the centuries-old Ayodhya dispute, which
+        culminated in a landmark verdict by the Supreme Court of India in
+        November 2019, granting permission for the construction of the temple at
+        the site believed to be the birthplace of Lord Ram. The architecture of
+        the Ram Mandir is a harmonious blend of traditional and contemporary
+        styles, reflecting the grandeur and spiritual significance of the deity
+        it honors. The main sanctum, housing the divine idols of Lord Ram,
+        Goddess Sita, Lakshman, and Hanuman, is adorned with intricate carvings
+        and embellishments, evoking a sense of awe and reverence among devotees.
+        The construction of the temple, a long-cherished dream of millions of
+        Hindus, symbolizes the triumph of faith over adversity and the spirit of
+        unity and reconciliation. It serves as a symbol of India's cultural
+        pluralism and the coexistence of diverse religious beliefs. The
+        inauguration of the Ayodhya Ram Mandir in August 2022 marked a historic
+        moment in the nation's history, drawing devotees and pilgrims from
+        across the country and beyond. The temple complex, with its sprawling
+        architecture and serene surroundings, has become a focal point for
+        spiritual seekers and tourists alike, offering a glimpse into India's
+        spiritual and architectural legacy. As the Ayodhya Ram Mandir continues
+        to inspire devotion and reverence, it stands as a timeless tribute to
+        the enduring legacy of Lord Ram and the collective aspirations of
+        millions of devotees who find solace and strength in his divine
+        presence.
+      </p>
+      <button class="like-btn" onclick="likeBlog('blog1')">Like</button>
+      <span id="likeCount_blog1">0</span> Likes
+      <div class="comment-section">
+        <textarea
+          id="commentInput_blog1"
+          placeholder="Add a comment"
+        ></textarea>
+        <button onclick="addComment('blog1')">Add Comment</button>
+        <div id="comments_blog1"></div>
+      </div>
+    </div>
+    <script>
+      function likeBlog(blogId) {
+        const likeCountElement = document.getElementById(`likeCount_${blogId}`);
+        let likeCount = parseInt(likeCountElement.innerText);
+        likeCount++;
+        likeCountElement.innerText = likeCount;
+
+        localStorage.setItem(`${blogId}_likeCount`, likeCount);
+      }
+
+      function addComment(blogId) {
+        const commentInput = document.getElementById(`commentInput_${blogId}`);
+        const commentsContainer = document.getElementById(`comments_${blogId}`);
+        const comment = commentInput.value.trim();
+
+        if (comment !== "") {
+          commentsContainer.innerHTML += `<p>${comment}</p>`;
+
+          const existingComments =
+            JSON.parse(localStorage.getItem(`${blogId}_comments`)) || [];
+          existingComments.push(comment);
+          localStorage.setItem(
+            `${blogId}_comments`,
+            JSON.stringify(existingComments)
+          );
+
+          commentInput.value = "";
+        }
+      }
+      function setInitialValues() {
+        const blogId = "blog1";
+        const likeCount = localStorage.getItem(`${blogId}_likeCount`) || 0;
+        const comments =
+          JSON.parse(localStorage.getItem(`${blogId}_comments`)) || [];
+
+        document.getElementById(`likeCount_${blogId}`).innerText = likeCount;
+
+        const commentsContainer = document.getElementById(`comments_${blogId}`);
+        commentsContainer.innerHTML = comments
+          .map((comment) => `<p>${comment}</p>`)
+          .join("");
+      }
+      setInitialValues();
+    </script>
+  </body>
+</html>
